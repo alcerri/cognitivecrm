@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CognitiveCrmMobile.Core.Model;
+using System.IO;
 
 namespace CognitiveCrmMobile.Core.Repository
 {
     class CardRepository
     {
+
         private static List<CardGroup> BusinessCardGroups = new List<CardGroup>()
         {
 
@@ -17,9 +19,9 @@ namespace CognitiveCrmMobile.Core.Repository
              ImagePath="", Title ="Group of Business Cards"
                 , BusinessCards = new List<Card>()
                 {
-                    new Card() { nameDesignation = "Jane Smith", addressLine1 ="123 Main Street Anytown, USA", phoneNumber1 ="900-888-1234" , emailAddress1="Jane@Smith.com" },
-                    new Card() { nameDesignation = "Koalu Sala", addressLine1 ="Taikos g. 104-55", phoneNumber1 ="(8-5)245-3377" , emailAddress1="koalusala@sebra.lt" },
-                    new Card() { nameDesignation = "April Ulichnie", phoneNumber1 ="843-795-6233" , emailAddress1="Salon424andSpa@gmail.com", webSite="www.Salon424Spa.com" },
+                    new Card() { id=1, nameDesignation = "Jane Smith", addressLine1 ="123 Main Street Anytown, USA", phoneNumber1 ="900-888-1234" , emailAddress1="Jane@Smith.com" },
+                    new Card() { id=2, nameDesignation = "Koalu Sala", addressLine1 ="Taikos g. 104-55", phoneNumber1 ="(8-5)245-3377" , emailAddress1="koalusala@sebra.lt" },
+                    new Card() { id=3, nameDesignation = "April Ulichnie", phoneNumber1 ="843-795-6233" , emailAddress1="Salon424andSpa@gmail.com", webSite="www.Salon424Spa.com" },
                 }
             }
         };

@@ -35,7 +35,6 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <Folder Include="images\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\CardGroup.cs" />
@@ -43,6 +42,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\CardRepository.cs" />
     <Compile Include="Service\CardsDataService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="images\Beauty-Salon-Business-Card_Back.jpg" />
+    <Content Include="images\beauty_005_1_f_black.jpg" />
+    <Content Include="images\beauty_013_1_f_black_large.jpg" />
+    <Content Include="images\nail-salon-and-spa-business-cards4.jpg" />
+    <Content Include="images\salon-business-cards-7.jpg" />
+    <Content Include="images\Salon424Spa_BC_web.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
