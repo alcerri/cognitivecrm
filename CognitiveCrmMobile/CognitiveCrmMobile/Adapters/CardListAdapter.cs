@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using CognitiveCrmMobile.Core.Model;
+using CognitiveCrmMobile.Utility;
 
 namespace CognitiveCrmMobile.Adapters
 {
@@ -49,10 +50,21 @@ namespace CognitiveCrmMobile.Adapters
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
             var item = items[position];
+            //var filePath = @"C:\dev\github\cognitivecrm\CognitiveCrmMobile\CognitiveCrmMobile\Resources\drawable\" + item.filePath;
+            //var imageBitmap = ImageHelper.GetImageBitmapFromFilePath(filePath, item.width, item.height);
             if(convertView == null)
             {
-                convertView = context.LayoutInflater.Inflate(Android.Resource.Layout.)
+                // If null then create a new row
+                //convertView = context.LayoutInflater.Inflate(Android.Resource.Layout.SimpleListItem1, null);
+                convertView = context.LayoutInflater.Inflate(Android.Resource.Layout.ActivityListItem, null);
             }
+            convertView.FindViewById<TextView>(Android.Resource.Id.Text1).Text = item.name;
+            // Get a reference to the built-in Icon ImageView 
+            ImageView img = convertView.FindViewById<ImageView>(Android.Resource.Id.Icon);
+            // set the image using the SetImageDrawable method. We'll use a helper function in a static class
+            // to return the image based on the the ImgURL from the people object
+            img.SetImageDrawable(GetImage.GetImageFromURL(item.filePath, context));
+            return convertView;
         }
     }
 }

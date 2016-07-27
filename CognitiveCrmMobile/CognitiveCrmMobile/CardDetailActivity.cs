@@ -12,6 +12,7 @@ using Android.Widget;
 using CognitiveCrmMobile.Core.Model;
 using CognitiveCrmMobile.Core.Service;
 using CognitiveCrmMobile.Utility;
+using CognitiveCrmMobile.Adapters;
 
 namespace CognitiveCrmMobile
 {
@@ -46,8 +47,17 @@ namespace CognitiveCrmMobile
 
             // Create your application here
             SetContentView(Resource.Layout.CardDetailView);
+
+            // Get data from User Selection on CardMenuActivity
+            var id = Intent.Extras.GetInt("selectedCardId");
+            //var cardList = Intent.Extras.GetStringArrayList("Card") ?? new string[0];
+
+            //string _id = cardList[0];
+            //int id = int.Parse(_id);
+
             this.dataService = new CardsDataService();
-            this.selectedCard = dataService.GetCardById(1);
+            this.selectedCard = dataService.GetCardById(id);
+            //this.selectedCard = dataService.GetCardById(1);
 
             FindViews();
             BindData();
@@ -94,27 +104,47 @@ namespace CognitiveCrmMobile
             this.nameDesignationTextView.Text = this.selectedCard.nameDesignation;
             this.phoneNumber1PhoneNumber2TextView.Text = this.selectedCard.phoneNumber1PhoneNumber2;
 
-            var imageBitmap = ImageHelper.GetImageBitmapFromUrl("http://gillcleerenpluralsight.blob.core.windows.net/files/" + selectedCard.imagePath +".jpg" );
-            cardImageView.SetImageBitmap(imageBitmap);
+            this.cardImageView.SetImageDrawable(GetImage.GetImageFromURL(this.selectedCard.filePath, this));
+
+            //var imageBitmap = ImageHelper.GetImageBitmapFromUrl("http://gillcleerenpluralsight.blob.core.windows.net/files/" + selectedCard.filePath +".jpg" );
+            //cardImageView.SetImageBitmap(imageBitmap);
         }
 
         private void HandleEvents()
         {
+            this.reviewButton.Click += ReviewButton_Click;
             saveButton.Click += SaveButton_Click;
             cancelButton.Click += CancelButton_Click;
         }
 
+
         private void CancelButton_Click(object sender, EventArgs e)
         {
-            //TODO
+            var intent = new Intent(this, typeof(CardMenuActivity));
+            StartActivity(intent);
         }
 
+        /// <summary>
+        /// Goes to CRM
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            var dialog = new AlertDialog.Builder(this);
-            dialog.SetTitle("Confirmation");
-            dialog.SetMessage("Are you sure you want to save to CRM");
-            dialog.Show();
+            var intent = new Intent();
+            intent.PutExtra("selectedCardId", selectedCard.id);
+            SetResult(Result.Ok, intent);
+            this.Finish();
+        }
+
+        /// <summary>
+        /// Executes CRM AI Cognitive service
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ReviewButton_Click(object sender, EventArgs e)
+        {
+            // TODO
         }
     }
 }
