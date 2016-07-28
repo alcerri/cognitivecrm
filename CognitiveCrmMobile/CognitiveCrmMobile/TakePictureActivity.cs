@@ -1,21 +1,17 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
-using Java.IO;
 using Android.Provider;
-using CognitiveCrmMobile.Utility;
+using Java.IO;
 using Android.Graphics;
+using CognitiveCrmMobile.Utility;
+using CognitiveCrmMobile.Core.Service;
 
 namespace CognitiveCrmMobile
 {
+
     [Activity(Label = "Take a picture", Icon = "@drawable/crm_apps_icon_hi_contrast_32x32")]
     public class TakePictureActivity : Activity
     {
@@ -24,6 +20,7 @@ namespace CognitiveCrmMobile
         private File imageDirectory;
         private File imageFile;
         private Bitmap imageBitmap;
+        private string fileName;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -42,7 +39,6 @@ namespace CognitiveCrmMobile
             {
                 imageDirectory.Mkdirs();
             }
-
         }
 
         private void FindViews()
@@ -59,13 +55,17 @@ namespace CognitiveCrmMobile
         private void TakePictureButton_Click(object sender, EventArgs e)
         {
             Intent intent = new Intent(MediaStore.ActionImageCapture);
-            imageFile = new File(imageDirectory, String.Format("PhotoWithRay_{0}.jpg", Guid.NewGuid()));
+            this.fileName = String.Format("Photo_{0}.jpg", Guid.NewGuid());
+            imageFile = new File(imageDirectory, fileName);
             intent.PutExtra(MediaStore.ExtraOutput, Android.Net.Uri.FromFile(imageFile));
+
             StartActivityForResult(intent, 0);
         }
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
+            base.OnActivityResult(requestCode, resultCode, data);
+
             int height = rayPictureImageView.Height;
             int width = rayPictureImageView.Width;
             imageBitmap = ImageHelper.GetImageBitmapFromFilePath(imageFile.Path, width, height);
@@ -76,9 +76,12 @@ namespace CognitiveCrmMobile
                 imageBitmap = null;
             }
 
+            var cardDataService = new CardsDataService();
+            cardDataService.AddCard(this.fileName);
             //required to avoid memory leaks!
             GC.Collect();
         }
+
 
     }
 }

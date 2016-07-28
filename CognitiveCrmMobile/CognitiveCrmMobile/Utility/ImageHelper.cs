@@ -12,6 +12,7 @@ using Android.Widget;
 using Android.Graphics;
 using System.Net;
 using Java.IO;
+using System.IO;
 
 namespace CognitiveCrmMobile.Utility
 {
@@ -53,6 +54,28 @@ namespace CognitiveCrmMobile.Utility
             // Now we will load the image and have BitmapFactory resize it for us.
             options.InSampleSize = inSampleSize;
             options.InJustDecodeBounds = false;
+            Bitmap resizedBitmap = BitmapFactory.DecodeFile(fileName, options);
+
+            return resizedBitmap;
+        }
+
+        public static Bitmap GetImageBitmapFromExternal(string fileName)
+        {
+            // First we get the the dimensions of the file on disk
+
+
+            byte[] buf;
+            using (System.IO.MemoryStream data = new MemoryStream())
+            {
+                Java.IO.File file = new File(Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryPictures), "RaysHotDogs/" + fileName);
+                file.CopyTo(data);
+                buf = data.ToArray();
+                
+            }
+
+            BitmapFactory.Options options = new BitmapFactory.Options { InJustDecodeBounds = true };
+            BitmapFactory.DecodeFile(fileName, options);
+
             Bitmap resizedBitmap = BitmapFactory.DecodeFile(fileName, options);
 
             return resizedBitmap;

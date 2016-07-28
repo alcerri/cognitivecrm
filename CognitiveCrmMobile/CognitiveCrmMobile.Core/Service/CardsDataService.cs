@@ -31,5 +31,10 @@ namespace CognitiveCrmMobile.Core.Service
         {
             return cardRepository.GetCardById(id);
         }
+
+        public void AddCard(string filePath)
+        {
+            cardRepository.AddCard(filePath);
+        }
     }
 }
